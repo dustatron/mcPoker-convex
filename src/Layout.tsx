@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function Layout({
   menu,
@@ -13,26 +14,13 @@ export function Layout({
         <nav className="container w-full justify-between flex flex-row items-center gap-6">
           <div className="flex items-center gap-6 md:gap-10">
             <a href="/">
-              <h1 className="text-base font-semibold">Convex Auth Demo</h1>
+              <h1 className="text-xl font-bold text-primary">🃏 mcPoker</h1>
             </a>
-            <div className="flex items-center gap-4 text-sm">
-              <a
-                href="https://convex.dev"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-                target="_blank"
-              >
-                Convex
-              </a>
-              <a
-                href="https://docs.convex.dev"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-                target="_blank"
-              >
-                Docs
-              </a>
-            </div>
           </div>
-          {menu}
+          <div className="flex items-center gap-4">
+            {menu}
+            <ThemeToggle />
+          </div>
         </nav>
       </header>
       <main className="flex grow flex-col">{children}</main>
