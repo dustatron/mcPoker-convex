@@ -15,7 +15,6 @@ interface VoteButtonProps {
 export function VoteButton({
   value,
   isSelected,
-  isRevealed,
   roomId,
   participantId,
   disabled,
