@@ -33,6 +33,10 @@ export const verify = internalAction({
       },
       profile: {
         phone,
+        name: phone, // Using phone as name for this provider
+        tokenIdentifier: `twilio|${phone}`,
+        email: "", // Not applicable for phone verification
+        favoriteColor: "", // Not applicable for phone verification
       },
       shouldLinkViaPhone: true,
     });

@@ -167,7 +167,6 @@ export const getVoteStatus = query({
       )
       .collect();
 
-    const votedParticipantIds = new Set(votes.map((v) => v.participantId));
     const totalParticipants = participants.length;
     const votedCount = votes.filter((v) => v.value !== null).length;
     const revealed = votes.length > 0 ? votes[0].revealed : false;

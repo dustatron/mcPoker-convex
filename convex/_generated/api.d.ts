@@ -18,6 +18,7 @@ import type * as errors from "../errors.js";
 import type * as helpers from "../helpers.js";
 import type * as history from "../history.js";
 import type * as http from "../http.js";
+import type * as messages from "../messages.js";
 import type * as otp_ResendOTP from "../otp/ResendOTP.js";
 import type * as otp_TwilioOTP from "../otp/TwilioOTP.js";
 import type * as otp_TwilioSDK from "../otp/TwilioSDK.js";
@@ -43,6 +44,7 @@ declare const fullApi: ApiFromModules<{
   helpers: typeof helpers;
   history: typeof history;
   http: typeof http;
+  messages: typeof messages;
   "otp/ResendOTP": typeof otp_ResendOTP;
   "otp/TwilioOTP": typeof otp_TwilioOTP;
   "otp/TwilioSDK": typeof otp_TwilioSDK;

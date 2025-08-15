@@ -2,6 +2,13 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  users: defineTable({
+    tokenIdentifier: v.string(),
+    name: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    favoriteColor: v.string(),
+  }).index("tokenIdentifier", ["tokenIdentifier"]),
   rooms: defineTable({
     name: v.string(),
     createdAt: v.number(),
@@ -29,5 +36,10 @@ export default defineSchema({
       }),
     ),
     createdAt: v.number(),
+  }),
+  messages: defineTable({
+    userId: v.id("users"),
+    body: v.string(),
+    author: v.string(),
   }),
 });

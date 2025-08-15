@@ -1,4 +1,4 @@
-import { INVALID_PASSWORD } from "./errors.js"
+import { INVALID_PASSWORD } from "./errors.js";
 import GitHub from "@auth/core/providers/github";
 import Google from "@auth/core/providers/google";
 import Resend from "@auth/core/providers/resend";
@@ -37,9 +37,13 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
     Password<DataModel>({
       id: "password-custom",
       profile(params, _ctx) {
+        const email = params.email as string;
         return {
-          email: params.email as string,
+          email,
+          name: email, // Using email as name for this provider
+          tokenIdentifier: `password-custom|${email}`,
           favoriteColor: params.favoriteColor as string,
+          phone: "", // Not applicable for email/password, set to empty string
         };
       },
       validatePasswordRequirements: (password: string) => {
