@@ -83,8 +83,19 @@ export function RoomPage() {
   const [newName, setNewName] = useState(participantName);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isToggling, setIsToggling] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   const { toast } = useToast();
+
+  // Get vote status for the room
+  const voteStatus = useQuery(api.voting.getVoteStatus, {
+    roomId: roomId as Id<"rooms">,
+  });
+
+  // Mutations for vote controls
+  const toggleReveal = useMutation(api.voting.toggleReveal);
+  const resetVotes = useMutation(api.voting.resetVotes);
 
   const room = useQuery(api.rooms.getRoom, { id: roomId as Id<"rooms"> });
   const participants = useQuery(api.participants.getParticipantsInRoom, {
@@ -115,6 +126,9 @@ export function RoomPage() {
         });
         setParticipantId(id);
         setIsJoining(false);
+
+        // Save participantId to localStorage
+        localStorage.setItem("mcPoker_participantId", id);
 
         // Save room to history when successfully joined
         if (room && roomId) {
@@ -206,6 +220,10 @@ export function RoomPage() {
     if (participantId) {
       try {
         await leaveRoom({ participantId });
+
+        // Remove participantId from localStorage
+        localStorage.removeItem("mcPoker_participantId");
+
         toast({
           title: "Left Room",
           description: "You have successfully left the room.",
@@ -266,6 +284,83 @@ export function RoomPage() {
                 </Drawer>
               </div>
 
+              <div className="flex items-center space-x-2">
+                {/* Vote control buttons */}
+                {voteStatus && (
+                  <>
+                    <Button
+                      onClick={async () => {
+                        if (!voteStatus) return;
+
+                        setIsToggling(true);
+                        try {
+                          await toggleReveal({
+                            roomId: roomId as Id<"rooms">,
+                            revealed: !voteStatus.revealed,
+                          });
+
+                          toast({
+                            title: voteStatus.revealed
+                              ? "Votes Hidden"
+                              : "Votes Revealed",
+                            description: voteStatus.revealed
+                              ? "All votes are now hidden from view"
+                              : "All votes are now visible to everyone",
+                          });
+                        } catch (error) {
+                          console.error("Failed to toggle reveal:", error);
+                          toast({
+                            title: "Error",
+                            description: "Failed to toggle vote visibility",
+                            variant: "destructive",
+                          });
+                        } finally {
+                          setIsToggling(false);
+                        }
+                      }}
+                      disabled={isToggling || voteStatus.votedCount === 0}
+                      size="sm"
+                      variant={voteStatus.revealed ? "outline" : "default"}
+                    >
+                      {isToggling
+                        ? "Updating..."
+                        : voteStatus.revealed
+                          ? "Hide Votes"
+                          : "Show Votes"}
+                    </Button>
+
+                    <Button
+                      onClick={async () => {
+                        setIsResetting(true);
+                        try {
+                          await resetVotes({ roomId: roomId as Id<"rooms"> });
+
+                          toast({
+                            title: "Vote Reset",
+                            description:
+                              "Votes have been saved to history and cleared for a new round",
+                          });
+                        } catch (error) {
+                          console.error("Failed to reset votes:", error);
+                          toast({
+                            title: "Error",
+                            description: "Failed to reset votes",
+                            variant: "destructive",
+                          });
+                        } finally {
+                          setIsResetting(false);
+                        }
+                      }}
+                      disabled={isResetting || voteStatus.votedCount === 0}
+                      size="sm"
+                      variant="outline"
+                    >
+                      {isResetting ? "Resetting..." : "Reset Vote"}
+                    </Button>
+                  </>
+                )}
+              </div>
+
               <div className="flex items-center space-x-4">
                 {/* Name editing */}
                 <div className="flex items-center space-x-2">
@@ -307,10 +402,6 @@ export function RoomPage() {
                     </>
                   )}
                 </div>
-
-                <Button variant="outline" onClick={handleLeaveRoom}>
-                  Leave Room
-                </Button>
               </div>
             </div>
           </CardHeader>
@@ -342,15 +433,12 @@ export function RoomPage() {
               <DrawerTitle>Room Details</DrawerTitle>
             </DrawerHeader>
 
-            <div className="space-y-6 mt-4 max-h-[70vh] overflow-y-auto px-4">
-              <div>
-                <h3 className="text-lg font-medium mb-2">Room Controls</h3>
-                <RoomControls roomId={roomId as Id<"rooms">} />
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium mb-2">Voting History</h3>
+            <div className="flex flex-row  mt-4 max-h-[80vh]  overflow-y-auto space-x-4">
+              <div className="w-2/3">
                 <HistoryList roomId={roomId as Id<"rooms">} />
+              </div>
+              <div className="mb-2 w-1/3">
+                <RoomControls roomId={roomId as Id<"rooms">} />
               </div>
             </div>
           </DrawerContent>

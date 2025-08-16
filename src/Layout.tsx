@@ -14,11 +14,11 @@ export function Layout({
         <nav className="container w-full justify-between flex flex-row items-center gap-6">
           <div className="flex items-center gap-6 md:gap-10">
             <a href="/">
-              <h1 className="text-xl font-bold text-primary">🃏 mcPoker</h1>
+              <h1 className="text-xl font-bold text-primary">🃏 McPoker</h1>
             </a>
           </div>
           <div className="flex items-center gap-4">
-            {menu}
+            <div className="mr-auto">{menu}</div>
             <ThemeToggle />
           </div>
         </nav>
