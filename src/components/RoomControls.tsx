@@ -107,14 +107,14 @@ export function RoomControls({ roomId }: RoomControlsProps) {
         {/* Room Information */}
         <div className="space-y-2">
           <div>
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Room Name
             </label>
-            <p className="font-semibold">{room.name}</p>
+            <p className="font-semibold dark:text-white">{room.name}</p>
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Room Link
             </label>
             <div className="flex space-x-2">
@@ -127,8 +127,8 @@ export function RoomControls({ roomId }: RoomControlsProps) {
         </div>
 
         {/* Vote Status */}
-        <div className="bg-gray-50 p-3 rounded-lg">
-          <div className="text-sm space-y-1">
+        <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700">
+          <div className="text-sm space-y-1 dark:text-gray-200">
             <div className="flex justify-between">
               <span>Participants:</span>
               <span className="font-medium">
@@ -143,7 +143,9 @@ export function RoomControls({ roomId }: RoomControlsProps) {
               <span>Status:</span>
               <span
                 className={`font-medium ${
-                  voteStatus.revealed ? "text-green-600" : "text-cyan-600"
+                  voteStatus.revealed
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-cyan-600 dark:text-cyan-400"
                 }`}
               >
                 {voteStatus.revealed ? "Revealed" : "Hidden"}
@@ -178,7 +180,7 @@ export function RoomControls({ roomId }: RoomControlsProps) {
         </div>
 
         {voteStatus.votedCount === 0 && (
-          <p className="text-sm text-gray-500 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
             No votes to show or reset yet
           </p>
         )}

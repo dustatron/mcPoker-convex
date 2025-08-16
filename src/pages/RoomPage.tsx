@@ -25,6 +25,7 @@ import {
 } from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { useToast } from "../components/ui/use-toast";
+import { UserBlock } from "@/components/UserBlock";
 
 // Interface for room history items (same as in LandingPage)
 interface RoomHistoryItem {
@@ -282,7 +283,6 @@ export function RoomPage() {
 
   const currentParticipant = participants.find((p) => p._id === participantId);
   const currentVote = votes.find((v) => v.participantId === participantId);
-  const isRevealed = votes.length > 0 ? votes[0].revealed : false;
 
   return (
     <div className="min-h-screen bg-background p-4">
@@ -429,42 +429,12 @@ export function RoomPage() {
               Clear Votes
             </Button>
 
-            {/* User Profile */}
-            <div className="flex items-center gap-2 ml-2">
-              <div className="bg-blue-600 dark:bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                {currentParticipant?.name?.substring(0, 2).toUpperCase() ||
-                  "JD"}
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="font-medium text-foreground">
-                  {currentParticipant?.name || participantName}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="p-1"
-                  onClick={() => {
-                    setNewName(currentParticipant?.name || participantName);
-                    setIsEditingName(true);
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                    <path d="m15 5 4 4"></path>
-                  </svg>
-                </Button>
-              </div>
-            </div>
+            <UserBlock
+              participantName={participantName}
+              currentParticipantName={currentParticipant?.name}
+              setIsEditingName={setIsEditingName}
+              setNewName={setNewName}
+            />
           </div>
         </div>
 
@@ -582,14 +552,14 @@ export function RoomPage() {
 
         {/* Drawer for Room Controls and History */}
         <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-          <DrawerContent className="px-4 pb-8">
+          <DrawerContent className="px-4 pb-8 dark:bg-gray-900 dark:border-gray-800">
             <DrawerHeader>
-              <DrawerTitle className="text-foreground">
+              <DrawerTitle className="text-foreground dark:text-white">
                 Room Details
               </DrawerTitle>
             </DrawerHeader>
 
-            <div className="flex flex-row  mt-4 max-h-[80vh]  overflow-y-auto space-x-4">
+            <div className="flex flex-row mt-4 max-h-[80vh] overflow-y-auto space-x-4 dark:text-gray-200">
               <div className="w-2/3">
                 <HistoryList roomId={roomId as Id<"rooms">} />
               </div>

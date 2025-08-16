@@ -32,17 +32,22 @@ export function HistoryList({ roomId }: HistoryListProps) {
       <CardContent>
         <div className="space-y-4 max-h-96 overflow-y-auto">
           {history.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">
+            <p className="text-gray-500 dark:text-gray-400 text-center py-4">
               No voting history yet
             </p>
           ) : (
             history.map((round) => (
-              <div key={round._id} className="border rounded-lg p-4 bg-gray-50">
+              <div
+                key={round._id}
+                className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+              >
                 <div className="flex justify-between items-start mb-3">
-                  <h4 className="font-semibold">Round {round.roundNumber}</h4>
-                  <div className="text-right text-sm text-gray-500">
+                  <h4 className="font-semibold dark:text-white">
+                    Round {round.roundNumber}
+                  </h4>
+                  <div className="text-right text-sm text-gray-500 dark:text-gray-300">
                     <div>{formatDate(round.createdAt)}</div>
-                    <div className="font-medium text-cyan-600">
+                    <div className="font-medium text-cyan-600 dark:text-cyan-400">
                       Avg: {calculateAverage(round.votes)}
                     </div>
                   </div>
@@ -52,10 +57,12 @@ export function HistoryList({ roomId }: HistoryListProps) {
                   {round.votes.map((vote, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center p-2 bg-white rounded border"
+                      className="flex justify-between items-center p-2 bg-white dark:bg-gray-700 rounded border dark:border-gray-600"
                     >
-                      <span className="text-sm font-medium">{vote.name}</span>
-                      <span className="text-sm font-bold text-cyan-600">
+                      <span className="text-sm font-medium dark:text-gray-200">
+                        {vote.name}
+                      </span>
+                      <span className="text-sm font-bold text-cyan-600 dark:text-cyan-400">
                         {vote.value}
                       </span>
                     </div>
@@ -63,7 +70,7 @@ export function HistoryList({ roomId }: HistoryListProps) {
                 </div>
 
                 {round.votes.length === 0 && (
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-400 dark:text-gray-400 text-sm">
                     No votes in this round
                   </p>
                 )}

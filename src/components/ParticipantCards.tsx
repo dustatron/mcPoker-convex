@@ -98,7 +98,7 @@ export function ParticipantCards({
                 </span>
               ) : hasVoted ? (
                 <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">
-                  ?
+                  ✅
                 </span>
               ) : (
                 <span className="text-2xl font-bold text-gray-300 dark:text-gray-600">
