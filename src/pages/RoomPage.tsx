@@ -261,10 +261,11 @@ export function RoomPage() {
 
   // Redirect if no participant name
   useEffect(() => {
-    if (!participantName) {
-      navigate("/");
+    if (!participantName && roomId) {
+      // Redirect to landing page with room ID as query parameter
+      navigate(`/?room=${roomId}`);
     }
-  }, [participantName, navigate]);
+  }, [participantName, navigate, roomId]);
 
   if (isJoining || !room || !participants || !votes || !participantId) {
     return (
