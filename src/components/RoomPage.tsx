@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
@@ -11,17 +12,58 @@ import { Input } from "./ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { useToast } from "./ui/use-toast";
 
-interface RoomPageProps {
-  roomId: Id<"rooms">;
-  participantName: string;
-  onLeaveRoom: () => void;
+// Interface for room history items (same as in LandingPage)
+interface RoomHistoryItem {
+  id: string;
+  name: string;
+  timestamp: number;
 }
 
-export function RoomPage({
-  roomId,
-  participantName,
-  onLeaveRoom,
-}: RoomPageProps) {
+// Function to save room to history (same as in LandingPage)
+const saveRoomToHistory = (id: string, name: string) => {
+  try {
+    // Get existing history or initialize empty array
+    const historyJson = localStorage.getItem("mcPoker_roomHistory");
+    const history: RoomHistoryItem[] = historyJson
+      ? JSON.parse(historyJson)
+      : [];
+
+    // Check if room already exists in history
+    const existingIndex = history.findIndex((item) => item.id === id);
+
+    // Create new history item
+    const historyItem: RoomHistoryItem = {
+      id,
+      name,
+      timestamp: Date.now(),
+    };
+
+    // If room exists, update it; otherwise add to history
+    if (existingIndex !== -1) {
+      history[existingIndex] = historyItem;
+    } else {
+      // Add new room to history
+      history.unshift(historyItem);
+
+      // Keep only the most recent 10 rooms
+      if (history.length > 10) {
+        history.pop();
+      }
+    }
+
+    // Save updated history back to localStorage
+    localStorage.setItem("mcPoker_roomHistory", JSON.stringify(history));
+  } catch (error) {
+    console.error("Failed to save room to history:", error);
+  }
+};
+
+export function RoomPage() {
+  const { roomId } = useParams<{ roomId: string }>();
+  const navigate = useNavigate();
+  const [participantName, setParticipantName] = useState<string>(
+    localStorage.getItem("mcPoker_participantName") || "",
+  );
   const [participantId, setParticipantId] = useState<Id<"participants"> | null>(
     null,
   );
@@ -31,11 +73,13 @@ export function RoomPage({
 
   const { toast } = useToast();
 
-  const room = useQuery(api.rooms.getRoom, { id: roomId });
+  const room = useQuery(api.rooms.getRoom, { id: roomId as Id<"rooms"> });
   const participants = useQuery(api.participants.getParticipantsInRoom, {
-    roomId,
+    roomId: roomId as Id<"rooms">,
   });
-  const votes = useQuery(api.voting.getVotesInRoom, { roomId });
+  const votes = useQuery(api.voting.getVotesInRoom, {
+    roomId: roomId as Id<"rooms">,
+  });
 
   const joinRoom = useMutation(api.participants.joinRoom);
   const renameParticipant = useMutation(api.participants.renameParticipant);
@@ -52,9 +96,17 @@ export function RoomPage({
   useEffect(() => {
     const joinRoomAsync = async () => {
       try {
-        const id = await joinRoom({ roomId, name: participantName });
+        const id = await joinRoom({
+          roomId: roomId as Id<"rooms">,
+          name: participantName,
+        });
         setParticipantId(id);
         setIsJoining(false);
+
+        // Save room to history when successfully joined
+        if (room && roomId) {
+          saveRoomToHistory(roomId, room.name);
+        }
 
         toast({
           title: "Joined Room",
@@ -70,19 +122,19 @@ export function RoomPage({
       }
     };
 
-    if (room && !participantId) {
+    if (room && !participantId && roomId && participantName) {
       joinRoomAsync();
     }
   }, [room, participantId, joinRoom, roomId, participantName, toast]);
 
   // Heartbeat to maintain connection
   useEffect(() => {
-    if (!participantId) return;
+    if (!participantId || !roomId) return;
 
     const heartbeatInterval = setInterval(async () => {
       try {
         await updateHeartbeat({ participantId });
-        await updateRoomActivity({ roomId });
+        await updateRoomActivity({ roomId: roomId as Id<"rooms"> });
       } catch (error) {
         console.error("Heartbeat failed:", error);
       }
@@ -120,6 +172,7 @@ export function RoomPage({
     try {
       await renameParticipant({ participantId, newName: newName.trim() });
       localStorage.setItem("mcPoker_participantName", newName.trim());
+      setParticipantName(newName.trim());
       setIsEditingName(false);
 
       toast({
@@ -153,8 +206,15 @@ export function RoomPage({
         });
       }
     }
-    onLeaveRoom();
+    navigate("/");
   };
+
+  // Redirect if no participant name
+  useEffect(() => {
+    if (!participantName) {
+      navigate("/");
+    }
+  }, [participantName, navigate]);
 
   if (isJoining || !room || !participants || !votes || !participantId) {
     return (
@@ -241,7 +301,7 @@ export function RoomPage({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Participants & Voting */}
           <div className="lg:col-span-2 space-y-6">
-            <ParticipantList roomId={roomId} />
+            <ParticipantList roomId={roomId as Id<"rooms">} />
 
             <Card>
               <CardHeader>
@@ -249,7 +309,7 @@ export function RoomPage({
               </CardHeader>
               <CardContent>
                 <VotingPanel
-                  roomId={roomId}
+                  roomId={roomId as Id<"rooms">}
                   participantId={participantId}
                   currentVote={currentVote?.value || null}
                   isRevealed={isRevealed}
@@ -257,12 +317,12 @@ export function RoomPage({
               </CardContent>
             </Card>
 
-            <HistoryList roomId={roomId} />
+            <HistoryList roomId={roomId as Id<"rooms">} />
           </div>
 
           {/* Right Column - Controls */}
           <div className="space-y-6">
-            <RoomControls roomId={roomId} />
+            <RoomControls roomId={roomId as Id<"rooms">} />
           </div>
         </div>
       </div>
