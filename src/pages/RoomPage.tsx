@@ -107,7 +107,6 @@ export function RoomPage() {
 
   const joinRoom = useMutation(api.participants.joinRoom);
   const renameParticipant = useMutation(api.participants.renameParticipant);
-  const leaveRoom = useMutation(api.participants.leaveRoom);
   const setConnectionStatus = useMutation(
     api.participants.setParticipantConnectionStatus,
   );
