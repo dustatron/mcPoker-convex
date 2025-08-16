@@ -39,7 +39,8 @@
     "resend": "3.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "twilio": "^5.2.0"
+    "twilio": "^5.2.0",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^3.2.0",

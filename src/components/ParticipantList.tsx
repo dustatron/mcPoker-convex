@@ -90,7 +90,7 @@ export function ParticipantList({ roomId }: ParticipantListProps) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 min-h-96">
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
           <h3 className="text-lg font-semibold text-foreground">
@@ -124,9 +124,9 @@ export function ParticipantList({ roomId }: ParticipantListProps) {
           const value = getParticipantVoteValue(participant._id);
 
           return (
-            <Card key={participant._id} className="p-4">
-              <CardContent className="p-0 space-y-3">
-                <div className="flex items-center space-x-2">
+            <Card key={participant._id} className="p-4 h-36 max-w-36">
+              <CardContent className="p-0 space-y-3 flex items-center flex-col justify-between">
+                <div className="flex items-center space-x-2  ">
                   <div
                     className={`w-2 h-2 rounded-full ${
                       participant.connected

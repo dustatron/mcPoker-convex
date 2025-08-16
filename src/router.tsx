@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { LandingPage } from "./components/LandingPage";
-import { RoomPage } from "./components/RoomPage";
+import { LandingPage } from "./pages/LandingPage";
+import { RoomPage } from "./pages/RoomPage";
 import NotFound from "./components/NotFound";
 
 const router = createBrowserRouter([

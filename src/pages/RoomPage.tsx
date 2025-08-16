@@ -3,14 +3,26 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
-import { ParticipantList } from "./ParticipantList";
-import { VotingPanel } from "./VoteButton";
-import { HistoryList } from "./HistoryList";
-import { RoomControls } from "./RoomControls";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { useToast } from "./ui/use-toast";
+import { ParticipantList } from "../components/ParticipantList";
+import { VotingPanel } from "../components/VoteButton";
+import { HistoryList } from "../components/HistoryList";
+import { RoomControls } from "../components/RoomControls";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../components/ui/drawer";
+import { useToast } from "../components/ui/use-toast";
 
 // Interface for room history items (same as in LandingPage)
 interface RoomHistoryItem {
@@ -70,6 +82,7 @@ export function RoomPage() {
   const [isJoining, setIsJoining] = useState(true);
   const [newName, setNewName] = useState(participantName);
   const [isEditingName, setIsEditingName] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const { toast } = useToast();
 
@@ -242,9 +255,15 @@ export function RoomPage() {
         <Card>
           <CardHeader>
             <div className="flex justify-between items-start">
-              <div>
+              <div className="flex items-center space-x-4">
                 <CardTitle className="text-2xl">{room.name}</CardTitle>
-                <p className="text-muted-foreground mt-1">Room ID: {roomId}</p>
+                <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+                  <DrawerTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      Room Details
+                    </Button>
+                  </DrawerTrigger>
+                </Drawer>
               </div>
 
               <div className="flex items-center space-x-4">
@@ -298,33 +317,44 @@ export function RoomPage() {
         </Card>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Participants & Voting */}
-          <div className="lg:col-span-2 space-y-6">
-            <ParticipantList roomId={roomId as Id<"rooms">} />
+        <div className="min-h-screen">
+          <ParticipantList roomId={roomId as Id<"rooms">} />
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Poker Voting</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <VotingPanel
-                  roomId={roomId as Id<"rooms">}
-                  participantId={participantId}
-                  currentVote={currentVote?.value || null}
-                  isRevealed={isRevealed}
-                />
-              </CardContent>
-            </Card>
-
-            <HistoryList roomId={roomId as Id<"rooms">} />
-          </div>
-
-          {/* Right Column - Controls */}
-          <div className="space-y-6">
-            <RoomControls roomId={roomId as Id<"rooms">} />
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Poker Voting</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <VotingPanel
+                roomId={roomId as Id<"rooms">}
+                participantId={participantId}
+                currentVote={currentVote?.value || null}
+                isRevealed={isRevealed}
+              />
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Drawer for Room Controls and History */}
+        <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+          <DrawerContent className="px-4 pb-8">
+            <DrawerHeader>
+              <DrawerTitle>Room Details</DrawerTitle>
+            </DrawerHeader>
+
+            <div className="space-y-6 mt-4 max-h-[70vh] overflow-y-auto px-4">
+              <div>
+                <h3 className="text-lg font-medium mb-2">Room Controls</h3>
+                <RoomControls roomId={roomId as Id<"rooms">} />
+              </div>
+
+              <div>
+                <h3 className="text-lg font-medium mb-2">Voting History</h3>
+                <HistoryList roomId={roomId as Id<"rooms">} />
+              </div>
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
     </div>
   );
