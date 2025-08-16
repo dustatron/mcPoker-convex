@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "@/Layout";
 import { Toaster } from "@/components/ui/toaster";
 import { Button } from "@/components/ui/button";
@@ -13,9 +13,6 @@ export default function App() {
 
   // Check if we're on a room page
   const isRoomPage = location.pathname.startsWith("/room/");
-
-  // Extract roomId from the path if on a room page
-  const roomId = isRoomPage ? location.pathname.split("/").pop() : null;
 
   // Get the leaveRoom mutation
   const leaveRoom = useMutation(api.participants.leaveRoom);

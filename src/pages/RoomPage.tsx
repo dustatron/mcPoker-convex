@@ -216,30 +216,6 @@ export function RoomPage() {
     }
   };
 
-  const handleLeaveRoom = async () => {
-    if (participantId) {
-      try {
-        await leaveRoom({ participantId });
-
-        // Remove participantId from localStorage
-        localStorage.removeItem("mcPoker_participantId");
-
-        toast({
-          title: "Left Room",
-          description: "You have successfully left the room.",
-        });
-      } catch (error) {
-        console.error("Failed to leave room:", error);
-        toast({
-          title: "Error",
-          description: "Failed to leave room",
-          variant: "destructive",
-        });
-      }
-    }
-    navigate("/");
-  };
-
   // Redirect if no participant name
   useEffect(() => {
     if (!participantName) {
