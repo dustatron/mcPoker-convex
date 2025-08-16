@@ -1,6 +1,27 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
+export const renameRoom = mutation({
+  args: {
+    roomId: v.id("rooms"),
+    newName: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Check if room exists
+    const room = await ctx.db.get(args.roomId);
+    if (!room) {
+      throw new Error("Room not found");
+    }
+
+    // Update room name
+    await ctx.db.patch(args.roomId, {
+      name: args.newName,
+    });
+
+    return { success: true };
+  },
+});
+
 export const createRoom = mutation({
   args: { name: v.string() },
   handler: async (ctx, args) => {
