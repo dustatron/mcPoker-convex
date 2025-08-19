@@ -26,17 +26,7 @@ export function Layout({
       <main className="flex grow flex-col">{children}</main>
       <footer className="border-t hidden sm:block">
         <div className="container py-4 text-sm leading-loose">
-          Built with ❤️ at{" "}
-          <FooterLink href="https://www.convex.dev/">Convex</FooterLink>.
-          Powered by Convex,{" "}
-          <FooterLink href="https://vitejs.dev">Vite</FooterLink>,{" "}
-          <FooterLink href="https://react.dev/">React</FooterLink> and{" "}
-          <FooterLink href="https://ui.shadcn.com/">shadcn/ui</FooterLink>. The
-          source code is available on{" "}
-          <FooterLink href="https://github.com/get-convex/convex-auth-example/">
-            GitHub
-          </FooterLink>
-          .
+          Built with by Dusty McCord
         </div>
       </footer>
     </div>
