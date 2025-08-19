@@ -150,9 +150,15 @@ export function LandingPage() {
                   type="text"
                   placeholder="Enter your name"
                   value={participantName}
-                  onChange={(e) => setParticipantName(e.target.value)}
+                  onChange={(e) =>
+                    setParticipantName(e.target.value.slice(0, 16))
+                  }
+                  maxLength={16}
                   className="w-full"
                 />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Maximum 16 characters
+                </p>
               </CardContent>
             </Card>
             {!roomId && (

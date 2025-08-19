@@ -102,11 +102,12 @@ export function UserBlock({
               Enter your new display name below.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex items-center space-y-4 py-4">
+          <div className="flex items-center space-y-4 py-4 flex-col">
             <Input
               placeholder="Enter your new name"
               value={newName}
-              onChange={(e) => setNewName(e.target.value)}
+              onChange={(e) => setNewName(e.target.value.slice(0, 16))}
+              maxLength={16}
               className="w-full"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -114,6 +115,9 @@ export function UserBlock({
                 }
               }}
             />
+            <p className="text-xs text-muted-foreground mt-1">
+              Maximum 16 characters
+            </p>
           </div>
           <DialogFooter>
             <Button variant="secondary" onClick={() => setIsEditingName(false)}>
