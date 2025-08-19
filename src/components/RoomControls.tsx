@@ -60,7 +60,7 @@ export function RoomControls({ roomId }: RoomControlsProps) {
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Room Link
             </label>
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 flew-col">
               <Input value={roomUrl} readOnly className="font-mono text-sm" />
               <Button onClick={handleCopyRoomLink} variant="outline" size="sm">
                 Copy

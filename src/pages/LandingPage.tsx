@@ -169,7 +169,7 @@ export function LandingPage() {
                     Start a new poker planning session
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700 flew-col">
+                <CardContent className="space-y-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700 flex-col">
                   <Input
                     type="text"
                     placeholder="Room name"
