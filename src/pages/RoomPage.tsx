@@ -185,7 +185,7 @@ export function RoomPage() {
               votes={votes}
               voteStatus={voteStatus}
             />
-            <div className="flex justify-start flex-shrink-0 w-full mt-4 space-x-4">
+            <div className="flex justify-start flex-shrink-0 w-full mt-4 space-x-4 h-48">
               <VoteDistribution
                 votes={votes}
                 revealed={voteStatus?.revealed || false}

@@ -51,26 +51,30 @@ export function VoteDistribution({
           const maxCount = Math.max(...Object.values(counts));
 
           return (
-            <div className="space-y-2">
+            <div className="flex justify-between h-28 items-end space-x-4">
               {possibleValues.map((value) => {
                 const count = counts[value] || 0;
                 const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
 
                 return (
-                  <div key={value} className="flex items-center gap-2">
-                    <div className="w-8 text-center font-medium text-foreground">
-                      {value}
-                    </div>
-                    <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full h-8 overflow-hidden">
+                  <div
+                    key={value}
+                    className="flex flex-col items-center gap-1 h-full"
+                  >
+                    <div className="w-8 flex-grow flex flex-col-reverse justify-start items-center">
                       <div
-                        className="bg-blue-600 dark:bg-blue-500 h-full rounded-full flex items-center justify-start pl-2 text-white text-xs"
+                        className="bg-blue-600 dark:bg-blue-500 w-8 rounded-t-lg flex items-end justify-center pb-1 text-white text-xs"
                         style={{
-                          width: `${percentage}%`,
-                          minWidth: count > 0 ? "2rem" : "0",
+                          height: `${percentage}%`,
+                          minHeight: count > 0 ? "2rem" : "0",
                         }}
                       >
                         {count > 0 ? count : ""}
                       </div>
+                      <div className="bg-gray-100 dark:bg-gray-700 w-8 rounded-t-lg flex-grow"></div>
+                    </div>
+                    <div className="text-center font-medium text-foreground">
+                      {value}
                     </div>
                   </div>
                 );

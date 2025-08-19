@@ -18,7 +18,7 @@ export function VoteResults({ votes, revealed, votedCount }: VoteResultsProps) {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow  p-4 mb-6 h-full">
       <h3 className="text-md font-semibold mb-3 flex items-center">
         <svg
           className="mr-2 h-5 w-5"
@@ -41,7 +41,7 @@ export function VoteResults({ votes, revealed, votedCount }: VoteResultsProps) {
         <span className="text-foreground">Vote Results</span>
       </h3>
 
-      <div className="grid grid-cols-3 gap-4 text-center">
+      <div className="grid grid-cols-3 gap-4 text-center h-full items-center">
         {/* Calculate consensus (most common vote) */}
         {(() => {
           const voteValues = votes

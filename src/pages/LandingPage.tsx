@@ -127,120 +127,126 @@ export function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-foreground">McPoker</h1>
-          <p className="text-muted-foreground mt-2">
-            Agile Poker Planning Made Simple
-          </p>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Your Name</CardTitle>
-            <CardDescription>
-              Enter your name to participate in voting
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Input
-              type="text"
-              placeholder="Enter your name"
-              value={participantName}
-              onChange={(e) => setParticipantName(e.target.value)}
-              className="w-full"
-            />
-          </CardContent>
-        </Card>
-        {!roomId && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Create New Room</CardTitle>
-              <CardDescription>
-                Start a new poker planning session
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Input
-                type="text"
-                placeholder="Room name"
-                value={roomName}
-                onChange={(e) => setRoomName(e.target.value)}
-              />
-              <Button
-                onClick={handleCreateRoom}
-                disabled={
-                  !participantName.trim() || !roomName.trim() || isCreating
-                }
-                className="w-full"
-              >
-                {isCreating ? "Creating..." : "Create Room"}
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
-        {roomId && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Join Existing Room</CardTitle>
-              <CardDescription>Join a room using its ID</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Input
-                type="text"
-                placeholder="Room ID"
-                value={roomId}
-                onChange={(e) => setRoomId(e.target.value)}
-              />
-              <Button
-                onClick={handleJoinRoom}
-                disabled={
-                  !participantName.trim() || !roomId.trim() || isJoining
-                }
-                className="w-full"
-                variant="outline"
-              >
-                {isJoining ? "Joining..." : "Join Room"}
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Room History */}
-        {!roomId && roomHistory.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Recently Visited Rooms</CardTitle>
-              <CardDescription>
-                Quick access to your recent rooms
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {roomHistory.map((historyItem) => (
-                  <div
-                    key={historyItem.id}
-                    className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleJoinHistoryRoom(historyItem)}
+    <div className="container lg:w-2/4 md:mx-auto   px-4 my-10">
+      <Card>
+        <CardHeader>
+          <div className="text-center">
+            <p className="h2 font-bold text-lg">
+              Point your tickets the easy way
+            </p>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col space-y-4">
+            <Card className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700">
+              <CardHeader>
+                <CardTitle>Your Name</CardTitle>
+                <CardDescription>
+                  Enter your name to participate in voting
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={participantName}
+                  onChange={(e) => setParticipantName(e.target.value)}
+                  className="w-full"
+                />
+              </CardContent>
+            </Card>
+            {!roomId && (
+              <Card className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700">
+                <CardHeader>
+                  <CardTitle>Create New Room</CardTitle>
+                  <CardDescription>
+                    Start a new poker planning session
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700">
+                  <Input
+                    type="text"
+                    placeholder="Room name"
+                    value={roomName}
+                    onChange={(e) => setRoomName(e.target.value)}
+                  />
+                  <Button
+                    onClick={handleCreateRoom}
+                    disabled={
+                      !participantName.trim() || !roomName.trim() || isCreating
+                    }
+                    className="w-full"
                   >
-                    <div>
-                      <div className="font-medium">{historyItem.name}</div>
-                      <div className="text-xs text-gray-500">
-                        ID: {historyItem.id}
+                    {isCreating ? "Creating..." : "Create Room"}
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+
+            {roomId && (
+              <Card className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700">
+                <CardHeader>
+                  <CardTitle>Join Existing Room</CardTitle>
+                  <CardDescription>Join a room using its ID</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Input
+                    type="text"
+                    placeholder="Room ID"
+                    value={roomId}
+                    onChange={(e) => setRoomId(e.target.value)}
+                  />
+                  <Button
+                    onClick={handleJoinRoom}
+                    disabled={
+                      !participantName.trim() || !roomId.trim() || isJoining
+                    }
+                    className="w-full"
+                    variant="outline"
+                  >
+                    {isJoining ? "Joining..." : "Join Room"}
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Room History */}
+            {!roomId && roomHistory.length > 0 && (
+              <Card className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700">
+                <CardHeader>
+                  <CardTitle>Recently Visited Rooms</CardTitle>
+                  <CardDescription>
+                    Quick access to your recent rooms
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {roomHistory.map((historyItem) => (
+                      <div
+                        key={historyItem.id}
+                        className="flex justify-between items-center p-3 bg-gray-200 dark:bg-gray-900 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        onClick={() => handleJoinHistoryRoom(historyItem)}
+                      >
+                        <div>
+                          <div className="font-medium dark:text-white">
+                            {historyItem.name}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            ID: {historyItem.id}
+                          </div>
+                        </div>
+                        <Button size="sm" variant="ghost">
+                          Join
+                        </Button>
                       </div>
-                    </div>
-                    <Button size="sm" variant="ghost">
-                      Join
-                    </Button>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
