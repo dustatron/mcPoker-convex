@@ -169,13 +169,17 @@ export function LandingPage() {
                     Start a new poker planning session
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700">
+                <CardContent className="space-y-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg dark:border dark:border-gray-700 flew-col">
                   <Input
                     type="text"
                     placeholder="Room name"
                     value={roomName}
-                    onChange={(e) => setRoomName(e.target.value)}
+                    onChange={(e) => setRoomName(e.target.value.slice(0, 40))}
+                    maxLength={40}
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Maximum 40 characters
+                  </p>
                   <Button
                     onClick={handleCreateRoom}
                     disabled={

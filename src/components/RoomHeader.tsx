@@ -104,11 +104,12 @@ export function RoomHeader({ room }: RoomHeaderProps) {
               Enter a new name for this room
             </DialogDescription>
           </DialogHeader>
-          <div className="flex items-center space-y-4 py-4">
+          <div className="flex items-center space-y-4 py-4 flew-col">
             <Input
               placeholder="Room name"
               value={newRoomName}
-              onChange={(e) => setNewRoomName(e.target.value)}
+              onChange={(e) => setNewRoomName(e.target.value.slice(0, 40))}
+              maxLength={40}
               className="w-full"
               autoFocus
               onKeyDown={(e) => {
@@ -118,6 +119,9 @@ export function RoomHeader({ room }: RoomHeaderProps) {
                 }
               }}
             />
+            <p className="text-xs text-muted-foreground mt-2">
+              Maximum 40 characters
+            </p>
           </div>
           <DialogFooter>
             <Button
