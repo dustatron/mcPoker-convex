@@ -155,12 +155,12 @@ export function RoomPage() {
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex justify-between items-center py-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 py-4">
           <div className="flex items-center gap-2">
             <RoomDetailsDrawer />
             <RoomHeader room={room} />
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 w-full sm:w-auto">
             <ToggleVoteButton />
             <ClearVoteButton roomId={roomId} />
             <UserBlock
@@ -173,7 +173,7 @@ export function RoomPage() {
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Participants */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 order-2 lg:order-1">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-foreground">
                 Participants ({participants.length})
@@ -200,7 +200,9 @@ export function RoomPage() {
           </div>
 
           {/* Right Column - Voting */}
-          <VoteCardGrid participantId={participantId} />
+          <div className="order-1 lg:order-2">
+            <VoteCardGrid participantId={participantId} />
+          </div>
         </div>
       </div>
     </div>

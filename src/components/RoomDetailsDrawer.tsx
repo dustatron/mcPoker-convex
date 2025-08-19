@@ -25,7 +25,7 @@ export function RoomDetailsDrawer() {
             <Button
               variant="ghost"
               size="sm"
-              className="absolute top-0 right-0 h-8 w-8 p-0 rounded-full"
+              className="absolute top-0 right-0 h-10 w-10 p-0 rounded-full"
               onClick={() => setIsDrawerOpen(false)}
               aria-label="Close drawer"
             >
@@ -47,14 +47,14 @@ export function RoomDetailsDrawer() {
             </Button>
           </DrawerHeader>
 
-          <div className="flex flex-row mt-4 max-h-[80vh] overflow-y-auto space-x-4 dark:text-gray-200">
-            <div className="w-1/3">
+          <div className="flex flex-col md:flex-row mt-4 max-h-[80vh] overflow-y-auto md:space-x-4 space-y-4 md:space-y-0 dark:text-gray-200">
+            <div className="w-full md:w-1/3">
               <HistoryList roomId={roomId as Id<"rooms">} />
             </div>
-            <div className="mb-2 w-1/3">
+            <div className="mb-2 w-full md:w-1/3">
               <RoomControls roomId={roomId as Id<"rooms">} />
             </div>
-            <div className="mb-2 w-1/3">
+            <div className="mb-2 w-full md:w-1/3">
               <ParticipantList roomId={roomId as Id<"rooms">} />
             </div>
           </div>
