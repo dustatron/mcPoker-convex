@@ -36,7 +36,8 @@ export function ClearVoteButton({ roomId }: Props) {
         }
       }}
       disabled={isResetting}
-      className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+      variant="destructive"
+      // className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
     >
       <svg
         className="mr-2 h-4 w-4"

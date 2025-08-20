@@ -160,9 +160,9 @@ export function RoomPage() {
             <RoomDetailsDrawer />
             <RoomHeader room={room} />
           </div>
+          <ClearVoteButton roomId={roomId} />
           <div className="flex flex-wrap items-center gap-2 sm:gap-4 w-full sm:w-auto">
             <ToggleVoteButton />
-            <ClearVoteButton roomId={roomId} />
             <UserBlock
               currentParticipantName={currentParticipant?.name}
               participantId={participantId}

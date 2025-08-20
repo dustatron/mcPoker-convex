@@ -49,8 +49,8 @@ export function ToggleVoteButton() {
           }
         }}
         disabled={isToggling || voteStatus?.votedCount === 0}
-        variant={voteStatus?.revealed ? "secondary" : "default"}
-        className="flex items-center gap-2"
+        // variant={voteStatus?.revealed ? "default" : "blue"}
+        className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -62,6 +62,7 @@ export function ToggleVoteButton() {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="mr-2"
         >
           <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
           <circle cx="12" cy="12" r="3"></circle>
