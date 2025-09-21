@@ -1,3 +1,7 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "buildCommand": "NODE_ENV=production npx convex deploy --cmd 'npm run build'",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }

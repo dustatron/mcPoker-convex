@@ -26,7 +26,7 @@ export function Layout({
       <main className="flex grow flex-col">{children}</main>
       <footer className="border-t hidden sm:block">
         <div className="container py-4 text-sm leading-loose">
-          Built with by Dusty McCord
+          Built by Dusty McCord
         </div>
       </footer>
     </div>
