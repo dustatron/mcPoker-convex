@@ -16,24 +16,26 @@ export function ClearVoteButton({ roomId }: Props) {
   const { toast } = useToast();
   return (
     <Button
-      onClick={async () => {
-        setIsResetting(true);
-        try {
-          await resetVotes({ roomId: roomId as Id<"rooms"> });
-          toast({
-            title: "New Round Started",
-            description: "Votes have been reset for a new round",
-          });
-        } catch (error) {
-          console.error("Failed to reset votes:", error);
-          toast({
-            title: "Error",
-            description: "Failed to start new round",
-            variant: "destructive",
-          });
-        } finally {
-          setIsResetting(false);
-        }
+      onClick={() => {
+        void (async () => {
+          setIsResetting(true);
+          try {
+            await resetVotes({ roomId: roomId as Id<"rooms"> });
+            toast({
+              title: "New Round Started",
+              description: "Votes have been reset for a new round",
+            });
+          } catch (error) {
+            console.error("Failed to reset votes:", error);
+            toast({
+              title: "Error",
+              description: "Failed to start new round",
+              variant: "destructive",
+            });
+          } finally {
+            setIsResetting(false);
+          }
+        })();
       }}
       disabled={isResetting}
       variant="destructive"
